@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/header :: header}">
+</head>
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <div th:replace="~{/layout/header :: topbar}">
+
+    </div>
+    <!-- end Topbar -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="~{/layout/header :: navbarDKA}">
+
+    </div>
+    <!-- Left Sidebar End -->
+
+
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a th:href="@{../home}">Beranda</a></li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Kelola User</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5>Daftar User</h5>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#tambah-modal" onclick="modalclick()">
+                                            <i class="fe-plus"></i>Tambah
+                                        </button>
+                                    </div><!-- end col-->
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div th:if="${type == 'gagal'}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    <div th:text="${msg}"></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+                                <div th:if="${type == 'berhasil'}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                    <div th:text="${msg}"></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+
+                                <div id="tambah-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/user/tambah" method="GET">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">~Form Tambah User</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <!-- NIP-->
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_NIP" class="form-label">NIP<span style="color: red">*</span></label>
+                                                                <input type="text" class="form-control" name="tambah_NIP" id="tambah_NIP" placeholder="NIP" required="true" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- nama-->
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_nama" class="form-label">Nama Lengkap<span style="color: red">*</span></label>
+                                                                <input type="text" class="form-control" name="tambah_nama" id="tambah_nama" placeholder="Nama Lengkap" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- jabatan-->
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_role" class="form-label">Jabatan<span style="color: red">*</span></label>
+                                                                <select class="form-control" name="tambah_role" id="tambah_role" required="true">
+                                                                    <option value="DKA">DKA</option>
+                                                                    <option value="PIC Kemahasiswaan">PIC Kemahasiswaan Prodi</option>
+                                                                    <option value="Wali Akademik">Wali Akademik Mahasiswa</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Jenis Kelamin-->
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="laki_laki" class="form-label">Jenis Kelamin<span style="color: red">*</span></label>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="tambah_jenis_kelamin" id="laki_laki" value="Laki-laki" required>
+                                                                    <label class="form-check-label" for="laki_laki">Laki-laki</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="tambah_jenis_kelamin" id="perempuan" value="Perempuan" required>
+                                                                    <label class="form-check-label" for="perempuan">Perempuan</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- alamat-->
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_alamat" class="form-label">Alamat<span style="color: red">*</span></label>
+                                                                <textarea class="form-control" name="tambah_alamat" id="tambah_alamat" placeholder="Alamat" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_password" class="form-label">Password<span style="color: red">*</span></label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <input type="password" class="form-control" name="tambah_password" id="tambah_password" placeholder="Password" required="true">
+                                                                    <div class="input-group-text" data-password="false">
+                                                                        <span class="password-eye"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">Simpan</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/user/edit" method="GET">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h4 class="modal-title">~Form Edit User</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <input type="hidden" name="edit_id" id="edit_id">
+                                                                <label for="edit_NIP" class="form-label">NIP<span style="color: red">*</span></label>
+                                                                <input type="text" class="form-control" name="edit_NIP" id="edit_NIP" placeholder="NIP" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_nama" class="form-label">Nama Lengkap<span style="color: red">*</span></label>
+                                                                <input type="text" class="form-control" name="edit_nama" id="edit_nama" placeholder="Nama Lengkap" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_role" class="form-label">Jabatan<span style="color: red">*</span></label>
+                                                                <select class="form-control" name="edit_role" id="edit_role" required="true">
+                                                                    <option value="DKA">DKA</option>
+                                                                    <option value="PIC Kemahasiswaan">PIC Kemahasiswaan Prodi</option>
+                                                                    <option value="Wali Akademik">Wali Akademik Mahasiswa</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_laki_laki" class="form-label">Jenis Kelamin<span style="color: red">*</span></label>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="edit_jenis_kelamin" id="edit_laki_laki" value="Laki-laki" required>
+                                                                    <label class="form-check-label" for="laki_laki">Laki-laki</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="edit_jenis_kelamin" id="edit_perempuan" value="Perempuan" required>
+                                                                    <label class="form-check-label" for="perempuan">Perempuan</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- alamat-->
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_alamat" class="form-label">Alamat<span style="color: red">*</span></label>
+                                                                <textarea class="form-control" name="edit_alamat" id="edit_alamat" placeholder="Alamat" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_password" class="form-label">Password<span style="color: red">*</span></label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <input type="password" class="form-control" name="edit_password" id="edit_password" placeholder="Password">
+                                                                    <div class="input-group-text" data-password="false">
+                                                                        <span class="password-eye"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">Edit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+
+                                <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/user/hapus" method="POST">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Yakin Hapus User?</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <input type="hidden" name="id_user_nm" id="id_user_nm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tidak</button>
+                                                    <button type="submit" class="btn btn-success waves-effect waves-light">Yakin Hapus !</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- /.modal -->
+
+
+
+                                <table id="basic-datatable" class="table dt-responsive nowrap w-100 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NIP</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>No HP</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr th:each="list:${list}">
+                                        <td th:text="${listStat.index + 1}"></td>
+                                        <td align="right" th:text="${list.NIP}"></td>
+
+                                        <td align="right" th:text="${list.nama_nm}"></td>
+                                        <td align="right" th:text="${list.role}"></td>
+                                        <td align="right" th:text="${list.jenis_kelamin_nm}"></td>
+
+                                        <td align="right" th:text="${list.alamat_nm}"></td>
+
+
+                                        <td align="right">
+                                            <span th:if="${list.status == 1}" th:text="Aktif"></span>
+                                            <span th:if="${list.status != 1}" th:text="Tidak Aktif"></span>
+                                        </td>
+
+                                        <td>
+
+                                            <button type="button" class="btn btn-soft-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="sendvalue(this.value)" th:value="${list.id_user_nm}" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="fa fa-pen-square"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-soft-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="sendvaluedelete(this.value)" th:value="${list.id_user_nm}" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+                <!-- end row-->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <script>document.write(new Date().getFullYear())</script> &copy; A-tech Otocare By <a href="">Kelompok 6</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+<footer th:replace="~{/layout/header :: footer}">
+
+</footer>
+
+<script>
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function sendvalue(value){
+        $.ajax({
+            url: "http://localhost:8080/api/user/data?id="+value,
+            method: "GET",
+            success: function(data) {
+                document.getElementById("edit_id").value = data["id_user_nm"];
+                document.getElementById("edit_role").value = data["role"];
+                document.getElementById("edit_NIP").value = data["NIP"];
+                document.getElementById("edit_password").value = data["password"];
+                document.getElementById("edit_nama").value = data["nama_nm"];
+                document.getElementById("edit_laki_laki").value = data["jenis_kelamin"];
+                document.getElementById("edit_alamat").value = data["edit_alamat"];
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+
+    function sendvaluedelete(value){
+        $.ajax({
+            url: "http://localhost:8080/api/user/data?id="+value,
+            method: "GET",
+            success: function(data) {
+                document.getElementById("id_user_nm").value = data["id_user_nm"];
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function modalclick(){
+        document.getElementById("tambah_password").value = generatePassword();
+    }
+
+    var generatePassword = (
+        length = 20,
+        wishlist = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    ) =>
+        Array.from(crypto.getRandomValues(new Uint32Array(length)))
+            .map((x) => wishlist[x % wishlist.length])
+            .join('');
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/header :: header}">
+</head>
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <div th:replace="~{/layout/header :: topbar}">
+
+    </div>
+    <!-- end Topbar -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="~{/layout/header :: navbarDKA}">
+
+    </div>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a th:href="@{../home}">Beranda</a></li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Kelola Reminder</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5>Daftar Reminder</h5>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#tambah-modal">
+                                            <i class="fe-plus"></i>Tambah
+                                        </button>
+                                    </div><!-- end col-->
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div th:if="${type == 'gagal'}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    <div th:text="${msg}"></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+                                <div th:if="${type == 'berhasil'}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                    <div th:text="${msg}"></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+
+                                <div id="tambah-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/reminder/tambah" method="GET">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">~Form Tambah Reminder</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3">
+                                                            <label for="tambah_role" class="form-label">Jabatan<span style="color: red">*</span></label>
+                                                            <select class="form-control" name="tambah_role" id="tambah_role" required="true">
+                                                                <option value="DKA">DKA</option>
+                                                                <option value="PIC Kemahasiswaan">PIC Kemahasiswaan Prodi</option>
+                                                                <option value="Wali Akademik">Wali Akademik Mahasiswa</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_tipe" class="form-label">Tipe Reminder<span style="color: red">*</span></label>
+                                                                <select class="form-control" name="tambah_tipe" id="tambah_tipe" required="true">
+                                                                    <option value="Video">Video</option>
+                                                                    <option value="Audio">Audio</option>
+                                                                    <option value="Artikel">Artikel</option>
+                                                                </select>ed="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="tambah_konten" class="form-label">Konten Reminder<span style="color: red">*</span></label>
+                                                                <textarea class="form-control" name="tambah_konten" id="tambah_konten" placeholder="Deskripsikan reminder dengan detail & lampirkan link medianya !" required="true"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                   
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">Simpan</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/reminder/edit" method="GET">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">~Form Edit Reminder</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-12">
+                                                                <div class="mb-3">
+                                                                    <label for="edit_tipe" class="form-label">Tipe Reminder<span style="color: red">*</span></label>
+                                                                    <select class="form-control" name="edit_tipe" id="edit_tipe" required="true">
+                                                                        <option value="Video">Video</option>
+                                                                        <option value="Audio">Audio</option>
+                                                                        <option value="Artikel">Artikel</option>
+                                                                    </select>ed="true">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="edit_konten" class="form-label">Konten Reminder<span style="color: red">*</span></label>
+                                                                <textarea class="form-control" name="edit_konten" id="edit_konten" placeholder="Deskripsikan reminder dengan detail !" required="true"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">Edit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <form action="/api/reminder/hapus" method="POST">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Yakin Hapus Reminder ?</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <input type="hidden" name="reminder_id" id="reminder_id">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tidak</button>
+                                                    <button type="submit" class="btn btn-success waves-effect waves-light">Yakin Hapus !</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- /.modal -->
+
+
+                                <table id="basic-datatable" class="table dt-responsive nowrap w-100 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tipe Reminder</th>
+                                        <th>Konten</th>
+
+                                        <th>Aksi</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr th:each="list:${list}">
+                                        <td th:text="${listStat.index + 1}"></td>
+                                        <td th:text="${list.reminder_tipe}"></td>
+                                        <td th:text="${list.reminder_konten}"></td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-soft-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="sendvalue(this.value)" th:value="${list.reminder_id}" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="fa fa-pen-square"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-soft-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="sendvaluedelete(this.value)" th:value="${list.reminder_id}" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+                <!-- end row-->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <script>document.write(new Date().getFullYear())</script> &copy; A-tech Otocare By <a href="">Kelompok 6</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+
+<footer th:replace="~{/layout/header :: footer}">
+
+</footer>
+
+<script>
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function sendvalue(value){
+        $.ajax({
+            url: "http://localhost:8080/api/reminder/data?id="+value,
+            method: "GET",
+            success: function(data) {
+                document.getElementById("edit_id").value = data["reminder_id"];
+                document.getElementById("edit_tipe").value = data["reminder_tipe"];
+                document.getElementById("edit_konten").value = data["reminder_konten"];
+
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function sendvaluedelete(value){
+        $.ajax({
+            url: "http://localhost:8080/api/reminder/data?id="+value,
+            method: "GET",
+            success: function(data) {
+                document.getElementById("reminder_id").value = data["reminder_id"];
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + xhr.responseText + thrownError);
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>
